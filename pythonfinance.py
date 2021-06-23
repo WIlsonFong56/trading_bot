@@ -16,8 +16,7 @@ if __name__ == '__main__':
     with open('stocks.csv') as csv_file:
         csv_reader = csv.reader(csv_file)
         for line in csv_reader:
-            if len(line[0]) <= 4 and line[0].isalpha() and int(line[8]) > 5000000:
-                stocks_list.append(line[0])
+            stocks_list.append(line[0])
         csv_file.close()
     
     month_or_week = input('Month or week: ')
