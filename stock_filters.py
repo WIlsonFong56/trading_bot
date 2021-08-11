@@ -63,13 +63,17 @@ def volume_filter(volume=None: int or None, avg_or_daily=None: str or None) -> '
     return stock_check
 
 
-def inside_range_filter(num: int, intervl='1d': str) -> 'function':
+def inside_range_filter(num: int, intervl='1d': str, inside_or_range: str, std_dev=0.05: float) -> 'function':
     def stock_check(ticker: str) -> bool:
         '''
-        Function returning whether the stock's price range is getting tighter.
+        Function returning whether the stock's price action is getting tighter or is ranging based on
+        input of param inside_or_range.
 
         :param num: An int object representing number of datapoints to check
         :param intervl: A string object representing the datapoint intervals
+        :param inside_or_range: A string object deciding which algorithm to use.
+        :param std_dev: A float object representing standard deviation of range, can be changed
+                        depending on volatility of stock
         :param ticker: A string object representing a stock ticker
         :return: A boolean object that is true only if the price range on the datapoints is contracting
         '''
@@ -81,7 +85,10 @@ def inside_range_filter(num: int, intervl='1d': str) -> 'function':
         highs_list = data.High.to_list()
         lows_list = data.Low.to_list()
         try:
-            return recur_inside(lows_list, highs_list, num)
+            if inside_or_range.upper() == 'INSIDE':
+                return recur_inside(lows_list, highs_list, num)
+            elif inside_or_range.upper() == 'RANGE':
+                return recur_ranging(lows_list, highs_list, num, std_dev)
         except:
             print(f'{ticker}\'s data was unretrievable')
     return stock_check
