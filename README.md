@@ -1,1 +1,1 @@
-# trading_bot
+# yfinance_technical_filters
