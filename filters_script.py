@@ -1,6 +1,4 @@
-import yfinance as yf
 import csv
-from pandas_datareader import data as pdr
 from stock_filters import *
 
 if __name__ == '__main__':
